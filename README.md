@@ -1,9 +1,9 @@
-# VeritasAI
+# TrioGodzAI
 Fake News and Misinformation Detection System using NLP, CNN, and Reinforcement Learning
 
 ## Overview
 
-VeritasAI is a web-based system designed to analyze news articles, social media posts, and online claims to determine whether they are credible or potentially misleading. The system uses natural language processing (NLP), deep learning, and a reinforcement learning feedback mechanism to improve prediction quality over time.
+TrioGodzAI is a web-based system designed to analyze news articles, social media posts, and online claims to determine whether they are credible or potentially misleading. The system uses natural language processing (NLP), deep learning, and a reinforcement learning feedback mechanism to improve prediction quality over time.
 
 The goal of this project is to provide users with a fast and understandable way to evaluate the reliability of information found online.
 
