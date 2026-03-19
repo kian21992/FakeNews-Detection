@@ -1,125 +1,167 @@
-# VeritasAI: Fake News & Misinformation Detector
+# VeritasAI
+Fake News and Misinformation Detection System using NLP, CNN, and Reinforcement Learning
 
-VeritasAI is an NLP-powered system designed to analyze claims, social media posts, and news articles to classify them as credible or potentially misleading. It utilizes a powerful ensemble scoring approach that combines state-of-the-art transformer models, linguistic subjectivity analysis, and domain reputation.
+## Overview
 
-## ✨ Features
+VeritasAI is a web-based system designed to analyze news articles, social media posts, and online claims to determine whether they are credible or potentially misleading. The system uses natural language processing (NLP), deep learning, and a reinforcement learning feedback mechanism to improve prediction quality over time.
 
-- **Raw Text Analysis**: Paste a custom claim, tweet, or statement directly into the intuitive UI for instant analysis.
-- **URL Context Analysis**: Provide a link to an article, and the backend will silently scrape the main content, stripping away ads and boilerplate, to analyze the core journalism.
-- **Ensemble Credibility Scoring**: The final score isn't a black box. It's a mathematically aggregated confidence score derived from three pillars:
-    1. **Transformer Base Score**: Evaluates linguistic patterns associated with misinformation using a pre-trained `RoBERTa` model fine-tuned for fake news.
-    2. **Subjectivity Penalty**: Analyzes the emotional charge and opinionated nature of the text using `TextBlob`. Highly subjective, emotionally manipulative text receives a penalty.
-    3. **Domain Reputation**: Checks a curated list of known reliable sources (e.g., Reuters, AP News) giving them a credibility boost, and penalizes known unreliable or satire domains.
-- **Extracted Context (NER)**: Automatically extracts key entities (people, organizations, locations) using `spaCy` to give you quick context on the topic.
-- **Detailed Analysis Breakdown**: The UI transparently displays the exact factors that influenced your final score.
+The goal of this project is to provide users with a fast and understandable way to evaluate the reliability of information found online.
 
-## 🛠 Tech Stack
+---
 
-- **Backend Framework**: `FastAPI` (Python)
-- **NLP & Inference Pipeline**: Hugging Face `transformers` (`hamzab/roberta-fake-news-classification`), `PyTorch`
-- **Linguistic Processing**: `spaCy`, `TextBlob`
-- **Web Scraping**: `trafilatura`
-- **Frontend**: Vanilla HTML/JavaScript, Tailwind CSS (via CDN)
-- **Testing**: `pytest`
+## Features
 
-## 🚀 Getting Started
+- Text Analysis: Analyze raw text such as claims, tweets, or statements  
+- URL Analysis: Extract and analyze content from news article links  
+- Ensemble Credibility Scoring:
+  - Transformer-based fake news detection model  
+  - Subjectivity analysis using TextBlob  
+  - Domain reputation scoring  
+- Named Entity Recognition (NER): Extract key people, organizations, and locations  
+- Transparent Results: Displays how the final score is computed  
+- Feedback System: Users can provide feedback to improve the model  
 
-### Prerequisites
+---
 
-- Python 3.10 or higher.
-- `pip` package manager.
+## How It Works
+
+1. User inputs text or a URL  
+2. System extracts and preprocesses the content  
+3. NLP pipeline converts text into numerical features  
+4. CNN / Transformer model predicts fake or real  
+5. Ensemble scoring adjusts the final credibility score  
+6. User feedback is stored for future model improvement  
+
+---
+
+## Tech Stack
+
+- Backend: FastAPI (Python)  
+- Machine Learning / NLP: Hugging Face Transformers, PyTorch  
+- Libraries: spaCy, TextBlob  
+- Web Scraping: trafilatura  
+- Frontend: HTML, JavaScript, Tailwind CSS  
+- Testing: pytest  
+
+---
+
+## Project Structure
+
+
+fake_news_detector/
+├── src/
+│ ├── api/ # FastAPI backend
+│ ├── data/ # Preprocessing and scraping
+│ ├── frontend/ # UI files
+│ └── models/ # ML models and scoring logic
+├── tests/ # Test cases
+├── docs/ # Reports and screenshots
+├── requirements.txt
+└── README.md
+
+
+---
+
+## Getting Started
+
+### Requirements
+
+- Python 3.10 or higher  
+- pip  
 
 ### Installation
 
-1. Clone the repository or navigate to your project directory.
-   ```bash
-   cd fake_news_detector
-   ```
-
-2. Create a virtual environment:
-   ```bash
-   python -m venv venv
-   ```
-
-3. Activate the virtual environment:
-   - **Windows:**
-     ```bash
-     .\venv\Scripts\activate
-     ```
-   - **macOS/Linux:**
-     ```bash
-     source venv/bin/activate
-     ```
-
-4. Install the required dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-5. Download the required language processing data:
-   ```bash
-   python -m spacy download en_core_web_sm
-   python -m textblob.download_corpora
-   ```
-
-## 💻 Running the Application
-
-To start the VeritasAI server, run:
-
 ```bash
+cd fake_news_detector
+python -m venv venv
+
+Activate the virtual environment:
+
+Windows:
+
+.\venv\Scripts\activate
+
+macOS/Linux:
+
+source venv/bin/activate
+
+Install dependencies:
+
+pip install -r requirements.txt
+
+Download required NLP data:
+
+python -m spacy download en_core_web_sm
+python -m textblob.download_corpora
+Running the Application
 python -m uvicorn src.api.main:app --host 0.0.0.0 --port 8000 --reload
-```
 
-- **Dashboard UI**: Open your web browser and navigate to `http://localhost:8000`.
-- **Interactive API Docs**: Navigate to `http://localhost:8000/docs`.
+Access the app:
 
-### Testing
+http://localhost:8000
 
-To verify the system components and API endpoints, run the included test suite:
+http://localhost:8000/docs
 
-```bash
+Testing
 python -m pytest tests/test_api.py -v
-```
+Reinforcement Learning (Feedback Loop)
 
-## 🔄 Reinforcement Learning (RLHF) Loop
+The system includes a basic feedback mechanism:
 
-This system includes a basic implementation of Reinforcement Learning from Human Feedback (RLHF):
-1. **Collect Feedback**: When users analyze an article on the dashboard, they can click "Thumbs Up" or "Thumbs Down" to indicate if the AI was correct.
-2. **Store Data**: This feedback is silently securely saved to a local SQLite database (`feedback.db`).
-3. **Fine-Tune Model**: Periodically, you can run the retraining script to update the transformer model's weights based on the collected human feedback.
+Users can provide feedback (correct/incorrect prediction)
 
-To execute a training run on your collected feedback:
-```bash
+Feedback is stored in a local SQLite database
+
+Data can be used to retrain the model
+
+To retrain:
+
 python retrain.py
-```
-*(Note: Fine-tuning requires significant system memory/VRAM).*
 
-## 🏗 Project Structure
+Note: Retraining may require higher memory or GPU resources.
 
-```text
-fake_news_detector/
-├── src/
-│   ├── api/             # FastAPI backend implementation
-│   │   └── main.py      # Main application and endpoints
-│   ├── data/            # Extraction and Preprocessing utilities
-│   │   ├── preprocess.py # Text cleaning and standardization
-│   │   └── scraper.py   # Web scraping logic using trafilatura
-│   ├── frontend/        # Vanilla JS & HTML UI
-│   │   ├── index.html
-│   │   ├── app.js
-│   │   └── styles.css
-│   └── models/          # ML and Logic implementations
-│       ├── features.py  # spaCy named entity recognition
-│       ├── pipeline.py  # Hugging Face inference and ensemble scoring
-│       └── reputation.py# Domain reliability lists and modifiers
-├── tests/               # Pytest suite
-│   └── test_api.py
-├── requirements.txt     # Python dependencies
-└── README.md            # This documentation
-```
+Current Progress (Week 2)
 
-## ⚠️ Limitations & Disclaimer
+Dataset collected and cleaned
 
-This system is an AI tool designed to detect **linguistic patterns** and structural markers common in misinformation. It does not possess "ground truth" knowledge and cannot independently verify factual claims like a human journalist using primary sources. 
+Exploratory Data Analysis (EDA) completed
 
-Always use this tool as a supplementary signal alongside verified fact-checking organizations (e.g., Snopes, PolitiFact, Reuters Fact Check).
+Baseline models implemented (e.g., Logistic Regression, Naive Bayes)
+
+CNN model initialized with initial results
+
+NLP preprocessing pipeline completed
+
+Reinforcement Learning component implemented (basic version)
+
+Version
+
+v0.1 – Proposal
+
+v0.9 – Release Candidate
+
+v1.0 – Final Version
+
+Limitations
+
+The system does not verify factual truth like human fact-checkers
+
+Predictions are based on patterns and model training data
+
+Misclassification is possible
+
+Disclaimer
+
+This system is intended as a support tool only. Users are encouraged to verify information using trusted fact-checking sources such as Snopes, PolitiFact, or Reuters Fact Check.
+
+Authors
+
+Dela Cruz, Kian S.
+
+Pasion Jr, Allan C.
+
+Sigua, Carl Jerome J.
+
+License
+
+This project is for academic purposes.
