@@ -3,7 +3,6 @@ import torch
 from transformers import pipeline
 
 from textblob import TextBlob
-from src.models.reputation import check_domain_reputation
 
 class FakeNewsDetector:
     def __init__(self, base_model_name="hamzab/roberta-fake-news-classification"):
@@ -28,12 +27,11 @@ class FakeNewsDetector:
             
         self.classifier = pipeline("text-classification", model=model_to_use, device=self.device)
         
-    def predict(self, text: str, url: str = None) -> dict:
+    def predict(self, text: str) -> dict:
         """
         Predicts if the text is reliable or fake using an ensemble of:
         - Transformer Classifier
         - Subjectivity / Sentiment Analysis
-        - Domain Reputation (if URL is provided)
         """
         # Truncate text if it's too long (most models handle max 512 tokens)
         # Assuming avg 4 chars per token, we roughly slice by characters
@@ -58,12 +56,8 @@ class FakeNewsDetector:
             if subjectivity > 0.6:
                 subjectivity_penalty = (subjectivity - 0.6) * 0.5 # Max penalty of ~0.2
             
-            # 3. Domain Reputation
-            reputation = check_domain_reputation(url)
-            domain_modifier = reputation["modifier"]
-            
-            # 4. Ensemble Score Calculation
-            final_score = base_score - subjectivity_penalty + domain_modifier
+            # 3. Ensemble Score Calculation
+            final_score = base_score - subjectivity_penalty
             
             # Apply a "Benefit of the Doubt" adjustment to reduce false positives
             # Real news often uses sensational language that AI trips on. We boost the final score by 15%.
@@ -79,8 +73,7 @@ class FakeNewsDetector:
                 "breakdown": {
                     "transformer_base_score": round(base_score, 4),
                     "original_label": label,
-                    "subjectivity": round(subjectivity, 4),
-                    "domain_status": reputation["status"]
+                    "subjectivity": round(subjectivity, 4)
                 }
             }
         except Exception as e:

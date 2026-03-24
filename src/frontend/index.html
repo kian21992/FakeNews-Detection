@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,10 +8,10 @@
     <!-- Tailwind CSS CDN for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <link rel="stylesheet" href="./styles.css">
     <script>
         tailwind.config = {
@@ -35,17 +36,24 @@
         }
     </script>
 </head>
-<body class="bg-gray-900 text-gray-100 min-h-screen antialiased flex flex-col font-sans selection:bg-brand-500 selection:text-white relative overflow-x-hidden">
+
+<body
+    class="bg-gray-900 text-gray-100 min-h-screen antialiased flex flex-col font-sans selection:bg-brand-500 selection:text-white relative overflow-x-hidden">
 
     <!-- Background decorative gradients -->
-    <div class="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-brand-500/20 rounded-full blur-[120px] pointer-events-none z-[-1]"></div>
-    <div class="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/20 rounded-full blur-[120px] pointer-events-none z-[-1]"></div>
+    <div
+        class="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-brand-500/20 rounded-full blur-[120px] pointer-events-none z-[-1]">
+    </div>
+    <div
+        class="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/20 rounded-full blur-[120px] pointer-events-none z-[-1]">
+    </div>
 
     <!-- Navbar -->
     <nav class="w-full border-b border-gray-800 bg-gray-900/80 backdrop-blur-md sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <div class="h-10 w-10 bg-gradient-to-br from-brand-500 to-blue-500 rounded-xl flex items-center justify-center shadow-lg shadow-brand-500/20">
+                <div
+                    class="h-10 w-10 bg-gradient-to-br from-brand-500 to-blue-500 rounded-xl flex items-center justify-center shadow-lg shadow-brand-500/20">
                     <i class="fa-solid fa-shield-halved text-xl text-white"></i>
                 </div>
                 <h1 class="text-xl font-semibold tracking-tight">TrioGodz<span class="text-brand-500">AI</span></h1>
@@ -59,57 +67,54 @@
     <!-- Main Content -->
     <main class="flex-grow flex items-center justify-center p-6 mt-10 mb-20">
         <div class="w-full max-w-4xl space-y-10">
-            
+
             <!-- Hero -->
             <div class="text-center space-y-4 fade-in">
-                <h2 class="text-4xl md:text-5xl font-bold tracking-tight">Analyze claims with <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-blue-500">Precision</span></h2>
-                <p class="text-gray-400 text-lg max-w-2xl mx-auto">Paste an article URL or raw text snippet below to instantly evaluate its credibility using our fine-tuned NLP transformer models.</p>
+                <h2 class="text-4xl md:text-5xl font-bold tracking-tight">Analyze claims with <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-brand-500 to-blue-500">Precision</span>
+                </h2>
+                <p class="text-gray-400 text-lg max-w-2xl mx-auto">Paste a raw text snippet below to instantly evaluate
+                    its credibility using our fine-tuned NLP transformer models.</p>
             </div>
 
             <!-- Input Section -->
-            <div class="bg-gray-800/50 border border-gray-700 backdrop-blur rounded-2xl p-6 md:p-8 shadow-2xl glass-card slide-up">
-                
-                <!-- Tabs -->
-                <div class="flex space-x-2 border-b border-gray-700 pb-4 mb-6">
-                    <button id="tab-text" class="tab-btn active px-4 py-2 rounded-lg font-medium text-sm transition-all text-white bg-gray-700" onclick="switchTab('text')">
-                        <i class="fa-solid fa-align-left mr-2"></i> Raw Text
-                    </button>
-                    <button id="tab-url" class="tab-btn px-4 py-2 rounded-lg font-medium text-sm transition-all text-gray-400 hover:text-white hover:bg-gray-700/50" onclick="switchTab('url')">
-                        <i class="fa-solid fa-link mr-2"></i> Article URL
-                    </button>
-                </div>
+            <div
+                class="bg-gray-800/50 border border-gray-700 backdrop-blur rounded-2xl p-6 md:p-8 shadow-2xl glass-card slide-up">
+
+
 
                 <!-- Text Input -->
                 <div id="input-text-container" class="space-y-4">
-                    <textarea id="input-text" rows="6" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-4 text-white focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none transition-all resize-none font-sans" placeholder="Paste the claim or article text here..."></textarea>
+                    <textarea id="input-text" rows="6"
+                        class="w-full bg-gray-900 border border-gray-700 rounded-xl p-4 text-white focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none transition-all resize-none font-sans"
+                        placeholder="Paste the claim or article text here..."></textarea>
                 </div>
 
-                <!-- URL Input -->
-                <div id="input-url-container" class="space-y-4 hidden">
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <i class="fa-solid fa-globe text-gray-500"></i>
-                        </div>
-                        <input type="url" id="input-url" class="w-full bg-gray-900 border border-gray-700 rounded-xl py-4 pl-12 pr-4 text-white focus:ring-2 focus:ring-brand-500 focus:border-transparent outline-none transition-all font-sans" placeholder="https://example.com/news-article">
-                    </div>
-                </div>
+
 
                 <!-- Action Bar -->
                 <div class="mt-6 flex items-center justify-between">
-                    <p class="text-xs text-gray-500"><i class="fa-solid fa-circle-info mr-1"></i> Analysis may take a few seconds.</p>
-                    <button id="analyze-btn" class="bg-brand-600 hover:bg-brand-500 text-white px-8 py-3 rounded-xl font-medium shadow-lg shadow-brand-500/20 focus:scale-95 transition-all transform flex items-center">
+                    <p class="text-xs text-gray-500"><i class="fa-solid fa-circle-info mr-1"></i> Analysis may take a
+                        few seconds.</p>
+                    <button id="analyze-btn"
+                        class="bg-brand-600 hover:bg-brand-500 text-white px-8 py-3 rounded-xl font-medium shadow-lg shadow-brand-500/20 focus:scale-95 transition-all transform flex items-center">
                         <span id="btn-text">Analyze Claim</span>
                         <i id="btn-icon" class="fa-solid fa-wand-magic-sparkles ml-2 mb-0.5"></i>
-                        <svg id="btn-loader" class="animate-spin ml-2 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        <svg id="btn-loader" class="animate-spin ml-2 h-5 w-5 text-white hidden"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                            </circle>
+                            <path class="opacity-75" fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                            </path>
                         </svg>
                     </button>
                 </div>
             </div>
 
             <!-- Error Banner -->
-            <div id="error-banner" class="hidden bg-red-500/10 border border-red-500/50 rounded-xl p-4 text-red-500 flex items-start fade-in">
+            <div id="error-banner"
+                class="hidden bg-red-500/10 border border-red-500/50 rounded-xl p-4 text-red-500 flex items-start fade-in">
                 <i class="fa-solid fa-triangle-exclamation mt-1 mr-3"></i>
                 <div id="error-message" class="text-sm font-medium">An error occurred while analyzing the text.</div>
             </div>
@@ -118,20 +123,26 @@
             <div id="results-container" class="hidden space-y-6 slide-up">
                 <h3 class="text-2xl font-bold flex items-center">
                     Analysis Results
-                    <span id="result-badge" class="ml-4 px-3 py-1 rounded-full text-sm font-semibold uppercase tracking-wide"></span>
+                    <span id="result-badge"
+                        class="ml-4 px-3 py-1 rounded-full text-sm font-semibold uppercase tracking-wide"></span>
                 </h3>
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    
+
                     <!-- Credibility Score Card -->
-                    <div class="col-span-1 bg-gray-800/50 border border-gray-700 rounded-2xl p-6 glass-card flex flex-col items-center justify-center relative overflow-hidden">
-                        <div class="text-gray-400 text-sm font-medium mb-4 uppercase tracking-wider">Credibility Score</div>
-                        
+                    <div
+                        class="col-span-1 bg-gray-800/50 border border-gray-700 rounded-2xl p-6 glass-card flex flex-col items-center justify-center relative overflow-hidden">
+                        <div class="text-gray-400 text-sm font-medium mb-4 uppercase tracking-wider">Credibility Score
+                        </div>
+
                         <!-- Radial Progress -->
                         <div class="relative w-32 h-32">
                             <svg class="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                                <circle cx="50" cy="50" r="45" fill="none" class="stroke-gray-700" stroke-width="8"></circle>
-                                <circle id="score-circle" cx="50" cy="50" r="45" fill="none" stroke-width="8" stroke-dasharray="283" stroke-dashoffset="283" stroke-linecap="round" class="transition-all duration-1000 ease-out"></circle>
+                                <circle cx="50" cy="50" r="45" fill="none" class="stroke-gray-700" stroke-width="8">
+                                </circle>
+                                <circle id="score-circle" cx="50" cy="50" r="45" fill="none" stroke-width="8"
+                                    stroke-dasharray="283" stroke-dashoffset="283" stroke-linecap="round"
+                                    class="transition-all duration-1000 ease-out"></circle>
                             </svg>
                             <div class="absolute inset-0 flex items-center justify-center flex-col">
                                 <span id="score-value" class="text-3xl font-bold">0%</span>
@@ -140,71 +151,78 @@
                     </div>
 
                     <!-- Analysis Details -->
-                    <div class="col-span-1 md:col-span-2 bg-gray-800/50 border border-gray-700 rounded-2xl p-6 glass-card space-y-4 h-full flex flex-col justify-center">
+                    <div
+                        class="col-span-1 md:col-span-2 bg-gray-800/50 border border-gray-700 rounded-2xl p-6 glass-card space-y-4 h-full flex flex-col justify-center">
                         <div class="space-y-1">
-                            <h4 class="text-gray-400 text-sm font-medium uppercase tracking-wider">AI Classification</h4>
+                            <h4 class="text-gray-400 text-sm font-medium uppercase tracking-wider">AI Classification
+                            </h4>
                             <p id="classification-text" class="text-lg font-medium">Likely Reliable</p>
                         </div>
                         <div class="space-y-1 pb-4">
                             <h4 class="text-gray-400 text-sm font-medium uppercase tracking-wider">Confidence Level</h4>
                             <p id="confidence-text" class="text-lg font-medium text-gray-300">High (98.5%)</p>
                         </div>
-                        
+
                         <!-- User Feedback Section -->
                         <div id="feedback-section" class="pt-4 border-t border-gray-700 fade-in">
-                            <h4 class="text-gray-400 text-sm font-medium uppercase tracking-wider mb-3">Is this classification accurate?</h4>
+                            <h4 class="text-gray-400 text-sm font-medium uppercase tracking-wider mb-3">Is this
+                                classification accurate?</h4>
                             <div class="flex space-x-3">
-                                <button id="btn-feedback-real" class="flex-1 bg-gray-700 hover:bg-green-600/30 hover:text-green-400 text-gray-300 border border-gray-600 hover:border-green-500/50 py-2 rounded-lg text-sm font-medium transition-all flex items-center justify-center">
+                                <button id="btn-feedback-real"
+                                    class="flex-1 bg-gray-700 hover:bg-green-600/30 hover:text-green-400 text-gray-300 border border-gray-600 hover:border-green-500/50 py-2 rounded-lg text-sm font-medium transition-all flex items-center justify-center">
                                     <i class="fa-solid fa-thumbs-up mr-2"></i> Yes, it's Reliable
                                 </button>
-                                <button id="btn-feedback-fake" class="flex-1 bg-gray-700 hover:bg-red-600/30 hover:text-red-400 text-gray-300 border border-gray-600 hover:border-red-500/50 py-2 rounded-lg text-sm font-medium transition-all flex items-center justify-center">
+                                <button id="btn-feedback-fake"
+                                    class="flex-1 bg-gray-700 hover:bg-red-600/30 hover:text-red-400 text-gray-300 border border-gray-600 hover:border-red-500/50 py-2 rounded-lg text-sm font-medium transition-all flex items-center justify-center">
                                     <i class="fa-solid fa-thumbs-down mr-2"></i> No, it's Misleading
                                 </button>
                             </div>
-                            <p id="feedback-thanks" class="text-brand-500 text-sm font-medium mt-3 hidden text-center"><i class="fa-solid fa-check-circle mr-1"></i> Feedback saved for AI fine-tuning!</p>
+                            <p id="feedback-thanks" class="text-brand-500 text-sm font-medium mt-3 hidden text-center">
+                                <i class="fa-solid fa-check-circle mr-1"></i> Feedback saved for AI fine-tuning!
+                            </p>
                         </div>
-                        
+
                         <!-- Breakdown Section -->
                         <div class="pt-4 border-t border-gray-700 mt-4 h-full flex flex-col justify-end">
-                            <h4 class="text-gray-400 text-sm font-medium uppercase tracking-wider mb-2">Analysis Breakdown</h4>
+                            <h4 class="text-gray-400 text-sm font-medium uppercase tracking-wider mb-2">Analysis
+                                Breakdown</h4>
                             <div class="space-y-2 text-sm text-gray-300">
                                 <div class="flex justify-between items-center">
-                                    <span title="The raw credibility score from the Transformer NLP model">Transformer AI Base:</span>
+                                    <span title="The raw credibility score from the Transformer NLP model">Transformer
+                                        AI Base:</span>
                                     <span id="bd-transformer" class="font-semibold">N/A</span>
                                 </div>
                                 <div class="flex justify-between items-center">
-                                    <span title="Lower is more objective (better). Higher is heavily emotional or opinionated.">Subjectivity Penalty:</span>
+                                    <span
+                                        title="Lower is more objective (better). Higher is heavily emotional or opinionated.">Subjectivity
+                                        Penalty:</span>
                                     <span id="bd-subjectivity" class="font-semibold text-yellow-500">N/A</span>
                                 </div>
-                                <div class="flex justify-between items-center" id="bd-domain-row">
-                                    <span title="Credibility modifier based on known source reliability.">Domain Source Rep:</span>
-                                    <span id="bd-domain" class="font-semibold">N/A</span>
-                                </div>
+
                             </div>
                         </div>
                     </div>
-                    </div>
                 </div>
-
-                <!-- Entities / Context -->
-                <div class="bg-gray-800/50 border border-gray-700 rounded-2xl p-6 glass-card">
-                    <h4 class="text-gray-400 text-sm font-medium uppercase tracking-wider mb-4">Extracted Context (Entities)</h4>
-                    <div id="entities-container" class="flex flex-wrap gap-2">
-                        <!-- Entities dynamically populated here -->
-                    </div>
-                    <p id="no-entities-msg" class="text-sm text-gray-500 hidden">No notable entities extracted from the text.</p>
-                </div>
-                
-                <!-- Scraped text preview if URL is used -->
-                <div id="scraped-text-preview" class="hidden bg-gray-800/30 border border-gray-700 rounded-2xl p-6 relative">
-                     <h4 class="text-gray-400 text-sm font-medium uppercase tracking-wider mb-3">Analyzed Content Preview</h4>
-                     <p id="scraped-text-content" class="text-sm text-gray-300 italic italic border-l-2 border-gray-600 pl-4"></p>
-                </div>
-
             </div>
+
+            <!-- Entities / Context -->
+            <div class="bg-gray-800/50 border border-gray-700 rounded-2xl p-6 glass-card">
+                <h4 class="text-gray-400 text-sm font-medium uppercase tracking-wider mb-4">Extracted Context (Entities)
+                </h4>
+                <div id="entities-container" class="flex flex-wrap gap-2">
+                    <!-- Entities dynamically populated here -->
+                </div>
+                <p id="no-entities-msg" class="text-sm text-gray-500 hidden">No notable entities extracted from the
+                    text.</p>
+            </div>
+
+
+
+        </div>
         </div>
     </main>
 
     <script src="./app.js"></script>
 </body>
+
 </html>

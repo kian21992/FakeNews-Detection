@@ -1,10 +1,7 @@
-from fastapi import FastAPI, HTTPException
-from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel, HttpUrl
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel, HttpUrl
 from fastapi import FastAPI, HTTPException, Depends
+from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel, HttpUrl
 from sqlalchemy.orm import Session
 import uvicorn
 
@@ -14,7 +11,6 @@ from pathlib import Path
 # Add src to the path so we can import modules
 sys.path.append(str(Path(__file__).parent.parent.parent))
 
-from src.data.scraper import scrape_article_text
 from src.data.preprocess import clean_text
 from src.models.pipeline import detector_pipeline
 from src.models.features import extract_entities
@@ -34,9 +30,6 @@ app.add_middleware(
 class TextRequest(BaseModel):
     text: str
 
-class UrlRequest(BaseModel):
-    url: HttpUrl
-
 @app.post("/analyze/text")
 async def analyze_text(request: TextRequest):
     """
@@ -51,28 +44,6 @@ async def analyze_text(request: TextRequest):
     
     return {
         "text": cleaned_text[:200] + "..." if len(cleaned_text) > 200 else cleaned_text,
-        "prediction": result,
-        "entities": entities
-    }
-
-@app.post("/analyze/url")
-async def analyze_url(request: UrlRequest):
-    """
-    Scrapes a URL and analyzes its main content for misinformation.
-    """
-    url_str = str(request.url)
-    scraped_text = scrape_article_text(url_str)
-    
-    if not scraped_text:
-        raise HTTPException(status_code=400, detail="Could not extract text from the provided URL.")
-        
-    cleaned_text = clean_text(scraped_text)
-    result = detector_pipeline.predict(cleaned_text, url_str)
-    entities = extract_entities(cleaned_text)
-    
-    return {
-        "url": url_str,
-        "scraped_snippet": cleaned_text[:200] + "...",
         "prediction": result,
         "entities": entities
     }

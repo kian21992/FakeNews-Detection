@@ -1,31 +1,7 @@
-let currentTab = 'text';
 
-function switchTab(tab) {
-    currentTab = tab;
-    
-    // Update buttons
-    document.getElementById('tab-text').classList.toggle('active', tab === 'text');
-    document.getElementById('tab-text').classList.toggle('text-white', tab === 'text');
-    document.getElementById('tab-text').classList.toggle('bg-gray-700', tab === 'text');
-    document.getElementById('tab-text').classList.toggle('text-gray-400', tab !== 'text');
-    
-    document.getElementById('tab-url').classList.toggle('active', tab === 'url');
-    document.getElementById('tab-url').classList.toggle('text-white', tab === 'url');
-    document.getElementById('tab-url').classList.toggle('bg-gray-700', tab === 'url');
-    document.getElementById('tab-url').classList.toggle('text-gray-400', tab !== 'url');
-
-    // Update input containers
-    document.getElementById('input-text-container').classList.toggle('hidden', tab !== 'text');
-    document.getElementById('input-url-container').classList.toggle('hidden', tab !== 'url');
-    
-    // Hide results and errors when switching tabs
-    hideResults();
-    hideError();
-}
 
 function hideResults() {
     document.getElementById('results-container').classList.add('hidden');
-    document.getElementById('scraped-text-preview').classList.add('hidden');
     
     // Reset circle animation
     const circle = document.getElementById('score-circle');
@@ -64,30 +40,15 @@ async function analyze() {
     hideError();
     hideResults();
     
-    const endpoint = currentTab === 'text' ? 'http://localhost:8000/analyze/text' : 'http://localhost:8000/analyze/url';
+    const endpoint = 'http://localhost:8000/analyze/text';
     const payload = {};
     
-    if (currentTab === 'text') {
-        const text = document.getElementById('input-text').value.trim();
-        if (!text) {
-            showError("Please enter some text to analyze.");
-            return;
-        }
-        payload.text = text;
-    } else {
-        const url = document.getElementById('input-url').value.trim();
-        if (!url) {
-            showError("Please enter a valid URL.");
-            return;
-        }
-        try {
-            new URL(url); // basic validation
-        } catch {
-            showError("Invalid URL format. Include http:// or https://");
-            return;
-        }
-        payload.url = url;
+    const text = document.getElementById('input-text').value.trim();
+    if (!text) {
+        showError("Please enter some text to analyze.");
+        return;
     }
+    payload.text = text;
     
     setLoading(true);
     
@@ -166,7 +127,7 @@ function displayResults(data) {
     }, 50);
     
     // Store variables globally for feedback submission
-    window.lastAnalyzedText = data.text || data.scraped_snippet || "";
+    window.lastAnalyzedText = data.text || "";
     window.lastModelScore = score;
     
     // Reset feedback UI
@@ -196,27 +157,7 @@ function displayResults(data) {
             subjEl.className = "font-semibold text-yellow-500";
         }
         
-        // Domain status
-        const domainRow = document.getElementById('bd-domain-row');
-        const domainEl = document.getElementById('bd-domain');
-        
-        if (currentTab === 'url') {
-            domainRow.classList.remove('hidden');
-            domainEl.classList.remove('text-green-400', 'text-red-400', 'text-gray-400');
-            
-            if (bd.domain_status === 'credible') {
-                domainEl.textContent = "Credible Source";
-                domainEl.classList.add('text-green-400');
-            } else if (bd.domain_status === 'unreliable_or_satire') {
-                domainEl.textContent = "Known Unreliable";
-                domainEl.classList.add('text-red-400');
-            } else {
-                domainEl.textContent = "Neutral / Unknown";
-                domainEl.classList.add('text-gray-400');
-            }
-        } else {
-            domainRow.classList.add('hidden');
-        }
+
     }
 
     // Entities
@@ -238,11 +179,7 @@ function displayResults(data) {
         noEntitiesMsg.classList.remove('hidden');
     }
     
-    // Scraped Preview
-    if (data.scraped_snippet) {
-         document.getElementById('scraped-text-preview').classList.remove('hidden');
-         document.getElementById('scraped-text-content').textContent = data.scraped_snippet;
-    }
+
     
     // Show results
     document.getElementById('results-container').classList.remove('hidden');
