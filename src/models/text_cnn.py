@@ -1,3 +1,12 @@
+# ============================================================
+# TEXT CNN MODEL (Deep Learning Baseline)
+# ------------------------------------------------------------
+# This model is based on Kim (2014) CNN for sentence classification.
+# It captures local n-gram features using multiple convolutional
+# filters and aggregates them using max-pooling.
+#
+# Used as the Deep Learning baseline for fake news detection.
+# ============================================================
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
